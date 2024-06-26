@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Report</title>
+    <link rel="stylesheet" href="styles.css">
+    
+</head>
+<body>
+        <form >
+            <h1>Patient Details</h1>
+            <p class="star-mark-description">* mark inputs are required</p>
+            <label for="patientName">Patient Name <span class="star-mark">*</span>:</label>
+            <input class="mb-2 pl-2" type="text" id="patientName" name="patientName" placeholder="Patient Name" required>
+            <br>
+            <label for="ageInYears">Age in Years <span class="star-mark">*</span>:</label>
+            <input class="mb-2 pl-2" type="number" id="ageInYears" name="ageInYears" placeholder="Age In Years" required/>
+            <br>
+            <input type="radio" id="male" value="M" name="gender" checked/>
+            <label for="male">Male</label>
+            <input type="radio" id="female" value="F" name="gender"/>
+            <label for="female">Female</label>
+            <br />
+            <label for="visitDate">Visit Date <span class="star-mark">*</span>:</label>
+            <input class="mb-2 pl-2" id="visitDate" type="date"/> 
+            <br />
+            <label for="refferedByDr">Referred by Dr:</label>
+            <input class="mb-2 pl-2" type="text" value="SELF" id="refferedByDr"/>
+            <br/>
+            
+            <h1 class="mt-5">Test Details</h1>
+            <input type="radio" id="bloodSugar" value="bloodSugar" name="testType" checked onclick="showTestInputs()"/>
+            <label for="bloodSugar">Blood Sugar</label>
+            <input type="radio" id="cbp" value="cbp" name="testType" onclick="showTestInputs()"/>
+            <label for="cbp">CBP</label>
+            <br />
+    
+            <div id="bloodSugarInputs">
+                <label for="fastingBloodSugar">Fasting Blood sugar:</label>
+                <input class="mb-2 pl-2" id="fastingBloodSugar" type="number" placeholder="mg/dl"/>
+                <br />
+                <label for="postLanchBloodSugar">Post lanch Blood Sugar:</label>
+                <input class="mb-2 pl-2" id="postLanchBloodSugar" type="number" placeholder="mg/dl" />
+            </div>
+    
+            <div id="cbpInputs" style="display: none;">
+                <label for="totalWBCCount">Total WBC Count:</label>
+                <input id="totalWBCCount" type="number" placeholder="cells/cumm" class="mb-2 pl-2"/>
+                <br/>
+
+
+                <label for="neutrophils">Neutrophils <span class="star-mark">*</span>:</label>
+                <input  id="neutrophils" type="number" placeholder="%"/>
+                <br/>
+                <label for="lymphocytes">Lymphocytes <span class="star-mark">*</span>:</label>
+                <input  id="lymphocytes" type="number" placeholder="%"/>
+                <br/>
+                <label for="eosinophils">Eosinophils <span class="star-mark">*</span>:</label>
+                <input id="eosinophils"  type="number" placeholder="%"/>
+                <br/>
+    
+                <label for="basophils">Basophils:</label>
+                <input id="basophils"  type="number" placeholder="%"/>
+                <br/>
+                <label for="hemoglobin">Hemoglobin:</label>
+                <input id="hemoglobin"  placeholder="grms" type="number"/>
+                <br/>
+                <label for="trbc">TRBC:</label>
+                <input id="trbc" placeholder="millions/cumm" type="number"/>
+                <br/>
+                <label for="plateletCount">Platelet Count:</label>
+                <input id="plateletCount"  placeholder="lakhs/cmm" type="number"/>
+
+
+            
+            </div>
+            <div style="display: flex; justify-content: center;">
+                <button type="button"  onclick="showReport()">Show Report</button>
+            </div>
+        </form>
+    
+        <div id="reportSection" style="display: none;">
+            
+                <div class="report-details">
+                    <p><strong>Patient Name:</strong> <span id="reportPatientName"></span></p>
+                    <p><strong>Age/Sex:</strong> <span id="reportAgeGender"></span></p>
+                    <p><strong>Referred by Dr:</strong> <span id="reportDr"></span></p>
+                    <p><strong>Visit Date:</strong> <span id="reportVisitDate"></span></p>
+                </div>
+                <div class="test-results">
+                    <!-- blood sugar report -->
+                    <div id="bloodSugarReport" class="report-headings" style="display: none;">
+                        <h1 class="bio-chemistry">BIO CHEMISTRY</h1>
+                        <div class="report-headings">
+                            <h2>PARAMETER</h2>
+                            <h2>TEST</h2>
+                            <h2>NORMAL RANGE</h2>
+                        </div>
+                        <div class="report-headings">
+                            <p>Fasting Blood Sugar</p>
+                            <p>: <span id="reportFastingBloodSugar"></span> mg/dl</p>
+                            <p>(70-110mg/dl)</p>
+                        </div>
+                        <div class="report-headings">
+                            <p>Fasting Urine Sugar</p>
+                            <p>: N/G</p>
+                            <p></p>
+                        </div>
+                        <div class="report-headings">
+                            <p>Post Lanch Blood Sugar</p>
+                            <p>: <span id="reportPostLanchBloodSugar"></span> mg/dl</p>
+                            <p>(80-170mg/dl)</p>
+                        </div>
+                        <div class="report-headings">
+                            <p>Post Lanch Urine Sugar</p>
+                            <p>: N/G</p>
+                            <p></p>
+                        </div>
+                    </div>
+                    <div id="cbpReport" class="report-headings" style="display: none;">
+                        <h1 class="bio-chemistry">COMPLETE BLOOD PICTURE</h1>
+                        <div class="report-headings">
+                            <h2>Total WBC Count</h2>
+                            <h2 style="text-decoration: none;">: <span id="reportTotalWBCCount"></span> mg/dl</h2>
+                            <h2 style="text-decoration: none;">(80-170mg/dl)</h2>
+                        </div>
+                        <h2 style="font-size: 25px;">Differential Count:</h2>
+                        <div class="report-headings">
+                            <p>Neutrophils</p>
+                            <p>: <span id="reportNeutrophils"></span></p>
+                            <p>(40-70%)</p>
+                        </div>
+                        <div class="report-headings">
+                            <p>Lymphocytes</p>
+                            <p>: <span id="reportLymphocytes"></span></p>
+                            <p>(20-40%)</p>
+                        </div>
+                        <div class="report-headings">
+                            <p>Eosinophils</p>
+                            <p>: <span id="reportEosinophils"></span></p>
+                            <p>(01-06%)</p>
+                        </div>
+                        <div class="report-headings">
+                            <p>Monocytes</p>
+                            <p>: <span id="reportMonocytes"></span></p>
+                            <p>(02-10%)</p>
+                        </div>
+                        <div class="report-headings">
+                            <p>Basophils</p>
+                            <p>: <span id="reportBasophils"></span></p>
+                            <p>(<01%)</p>
+                        </div>
+                        <div class="report-headings">
+                            <p>Hemoglobin</p>
+                            <p>: <span id="reportHemoglobin"></span></p>
+                            <p>(20-40%)</p>
+                        </div>
+                        <div class="report-headings">
+                            <p>TRBC</p>
+                            <p>: <span id="reportTRBC"></span></p>
+                            <p>(20-40%)</p>
+                        </div>
+                        <h1 style="text-align: center; text-decoration: underline;">PLATELET COUNT</h1>
+                        <div class="report-headings">
+                            <p>PLATELET COUNT</p>
+                            <p>: <span id="reportPlateletCount"></span></p>
+                            <p>(N:1.5-4.0 lakhs/cmm)</p>
+                        </div>
+                        <h1 id="final-text" style="font-size: 18px;">FOR CLINICAL CORRECTION AND FINDING ADVICE FURTHER INVESTIGATION.</h1>
+                    </div>
+                </div>
+            
+            <div style="display: flex; justify-content: center;" >
+                <button type="button" class="btn btn-primary" onclick="printReport()">Print</button>
+            </div>
+        </div>
+    
+    
+    <script src="script.js"></script>
+</body>
+</html>
